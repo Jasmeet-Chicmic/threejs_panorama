@@ -28,7 +28,18 @@ export default class Resources extends EventEmitter
 
     startLoading()
     {
+        console.log("on starging login",this.toLoad);
+        
         // Load each source
+        if(this.toLoad==0){
+           setTimeout(() => {
+            
+               this.trigger('ready');
+           },0);
+                
+           
+            return; 
+        }
         for(const source of this.sources)
         {
             if(source.type === 'gltfModel')
@@ -72,6 +83,8 @@ export default class Resources extends EventEmitter
 
         if(this.loaded === this.toLoad)
         {
+           
+            
             this.trigger('ready')
         }
     }

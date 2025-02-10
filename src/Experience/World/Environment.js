@@ -22,14 +22,14 @@ export default class Environment
 
     setSunLight()
     {
-        this.sunLight = new THREE.DirectionalLight('#ffffff', 4)
+        this.sunLight = new THREE.PointLight('#ffffff', 8)
         this.sunLight.castShadow = true
         this.sunLight.shadow.camera.far = 15
         this.sunLight.shadow.mapSize.set(1024, 1024)
         this.sunLight.shadow.normalBias = 0.05
-        this.sunLight.position.set(3.5, 2, - 1.25)
+        this.sunLight.position.set(0,0,0)
         this.scene.add(this.sunLight)
-
+        
         // Debug
         if(this.debug.active)
         {
@@ -66,25 +66,26 @@ export default class Environment
     setEnvironmentMap()
     {
         this.environmentMap = {}
-        this.environmentMap.intensity = 0.4
+        this.environmentMap.intensity = 3
         this.environmentMap.texture = this.resources.items.environmentMapTexture
         this.environmentMap.texture.colorSpace = THREE.SRGBColorSpace
+        this.scene.background = new THREE.Color("#808080")
+        // this.scene.environment = this.environmentMap.texture
         
-        this.scene.environment = this.environmentMap.texture
-
-        this.environmentMap.updateMaterials = () =>
-        {
-            this.scene.traverse((child) =>
-            {
-                if(child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial)
-                {
-                    child.material.envMap = this.environmentMap.texture
-                    child.material.envMapIntensity = this.environmentMap.intensity
-                    child.material.needsUpdate = true
-                }
-            })
-        }
-        this.environmentMap.updateMaterials()
+     
+        // this.environmentMap.updateMaterials = () =>
+        // {
+        //     this.scene.traverse((child) =>
+        //     {
+        //         if(child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial)
+        //         {
+        //             child.material.envMap = this.environmentMap.texture
+        //             child.material.envMapIntensity = this.environmentMap.intensity
+        //             child.material.needsUpdate = true
+        //         }
+        //     })
+        // }
+        // this.environmentMap.updateMaterials()
 
         // Debug
         if(this.debug.active)
